@@ -1,0 +1,41 @@
+
+Requirements:
+
+To build xload-snmp you need to have the headers and libs for UCD SNMP
+as well as the regular X11 stuff. UCD SNMP is available at
+http://ucd-snmp.ucdavis.edu
+
+Installation:
+
+Is straightforward. Do:
+
+~$ xmkmf -a
+~$ make
+~# make install install.man
+
+USAGE:
+
+The new executable will do everything the old xload did, plus some new
+SNMP-related flags. A typical invocation to monitor the load of the host
+systhug would look like:
+
+~$ xload -peername 'systhug' -community ~/.server-load -oid 'laLoadFloat.1'
+
+Read the manpage for more details.
+
+TODO:
+
+I'm not really familiar with SNMP, or Xt, so there should probably be lots
+of crossbar testing with various SNMP servers to make sure it works like
+it should.
+
+I think we're going to need a flag for some sort of scaling
+factor. i.e. some SNMP daemons will return an integer of 1000 for a float
+value of 1.000. If the daemon returns a string "1.000" (or "1000"!) we
+should be able to deal with that too.
+
+Folding back in with the main xload source base would be nice. Does anyone
+maintain that?
+
+Binary packages.
+
