@@ -8,5 +8,6 @@ typedef struct {
   char* peername;
   char* community;
   char* oid;
+  float factor;
 } snmp_params;
 

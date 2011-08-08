@@ -1113,8 +1113,10 @@ void GetLoadPoint_SNMP( w, closure, call_data)
     struct snmp_pdu *pdu, *response;
     struct variable_list *vars;
     int status;
+    float scale_factor;
 
     if (ss == NULL) initialize_xload_snmp((snmp_params*)closure);
+    scale_factor = ((snmp_params*)closure)->factor;
 
     pdu = snmp_pdu_create(SNMP_MSG_GET);
     snmp_add_null_var(pdu, anOID, anOID_len);
@@ -1122,7 +1124,14 @@ void GetLoadPoint_SNMP( w, closure, call_data)
     status = snmp_synch_response(ss, pdu, &response);
     if (status == STAT_SUCCESS && response->errstat == SNMP_ERR_NOERROR) {
 	vars = response->variables;
-	*(double*)call_data = *(vars->val.floatVal);
+	if (vars->type == ASN_OPAQUE_FLOAT)
+	    *(double*)call_data = *(vars->val.floatVal) / scale_factor;
+	/* _Most_ of the other times treating the value as an int is
+	 * the right thing. Cases where this is not true will be
+	 * determined by experience. Lucky call_data points to a
+	 * double so we have lots of storage. */
+	else
+	    *(double*)call_data = *(vars->val.integer) / scale_factor;
     }
     else {
 	if (status == STAT_SUCCESS)

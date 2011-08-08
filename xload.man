@@ -71,6 +71,15 @@ that it does not have to appear on the command line. The file may contain
 any number of comment lines, which start with a '#'. The only other valid
 record type is the community string on a line by itself. The community
 string should not exceed 256 characters.
+.PP
+.TP 8
+.B \-factor \fIfloat\fP
+An optional scaling factor. -factor is currently only used when using
+SNMP. The value returned by each SNMP query is divided by the scaling
+factor before being plotted on the histogram. Use -factor to scale down
+very large values and keep the histogram legible. You can also scale
+\fIup\fP by specifying a factor of less than 1. A factor of zero is not
+allowed.
 .SH RESOURCES
 In addition to the resources available to each of the widgets used by 
 \fIxload\fP there are resources defined by the application itself.

@@ -21,6 +21,11 @@ systhug would look like:
 
 ~$ xload -peername 'systhug' -community ~/.server-load -oid 'laLoadFloat.1'
 
+Or an alternative with the -factor option:
+
+~$ xload -peername 'systhug' -community ~/.server-load -oid 'laLoadInt.1' \
+   -factor 100
+
 Read the manpage for more details.
 
 TODO:
@@ -29,13 +34,29 @@ I'm not really familiar with SNMP, or Xt, so there should probably be lots
 of crossbar testing with various SNMP servers to make sure it works like
 it should.
 
-I think we're going to need a flag for some sort of scaling
-factor. i.e. some SNMP daemons will return an integer of 1000 for a float
-value of 1.000. If the daemon returns a string "1.000" (or "1000"!) we
-should be able to deal with that too.
+We don't yet deal with return values which might be strings. i.e. a string
+result of "1.000" should be acceptable. If we get a string that's not a
+number we should gracefully... exit? not plot?
+
+64 bit integer return values are also not tested. The value into which we
+are storing the returned SNMP data is a double, I'm just not sure how it
+will react to a 64 bit return value.
 
 Folding back in with the main xload source base would be nice. Does anyone
 maintain that?
 
 Binary packages.
+
+A -delta flag which remembers the last response value and plots the
+_difference_ between that value and the current value. This would allow
+meaningful plots of values which only increase. For instance, plotting
+some kind of TotalPacketsOut counter with the -delta flag would
+essentially give packets out per second.
+
+I've found a GtkStripChart widget. If it's any good I might try switching
+to Gtk. Why? I think it would be neat if you could mouse over a point on
+the histogram and a tool tip would tell you what _time_ that point was
+plotted. This would probably be easier to do by adding to or subclassing
+GtkStripChart than by staying with Athena. Gtk would allow me an escape
+from Athena and Xt lossage in general.
 

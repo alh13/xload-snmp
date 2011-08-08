@@ -73,6 +73,7 @@ typedef struct _XLoadResources {
   String peername;
   String community;
   String oid;
+  float factor;
 } XLoadResources;
 
 /*
@@ -89,6 +90,7 @@ static XrmOptionDescRec options[] = {
  {"-nolabel",		"*showLabel",	        XrmoptionNoArg,       "False"},
  {"-lights",		"*useLights",		XrmoptionNoArg,	      "True"},
  {"-jumpscroll",	"*load.jumpScroll",	XrmoptionSepArg,	NULL},
+ {"-factor",            "*factor",              XrmoptionSepArg,        NULL},
  {"-peername",          "*peername",            XrmoptionSepArg,        NULL},
  {"-community",         "*community",           XrmoptionSepArg,        NULL},
  {"-oid",               "*oid",                 XrmoptionSepArg,        NULL},
@@ -101,11 +103,15 @@ static XrmOptionDescRec options[] = {
 
 #define Offset(field) (XtOffsetOf(XLoadResources, field))
 
+/* I can't believe I have to do this. Xt is an atrocity. */
+static float factorDefault = 1.0;
 static XtResource my_resources[] = {
   {"showLabel", XtCBoolean, XtRBoolean, sizeof(Boolean),
      Offset(show_label), XtRImmediate, (XtPointer) TRUE},
   {"useLights", XtCBoolean, XtRBoolean, sizeof(Boolean),
     Offset(use_lights), XtRImmediate, (XtPointer) FALSE},
+  {"factor", XtCValue, XtRFloat, sizeof(float),
+   Offset(factor), XtRFloat, (XtPointer) &factorDefault },
   {"peername", XtCString, XtRString, sizeof(String),
    Offset(peername), XtRString, (XtPointer)NULL },
   {"community", XtCString, XtRString, sizeof(String),
@@ -154,6 +160,8 @@ void usage()
       "    -nolabel                removes the label from above the chart.\n");
     fprintf (stderr, 
       "    -jumpscroll value       number of pixels to scroll on overflow\n");
+    fprintf (stderr,
+      "    -factor value           floating point value to \"scale down\" the plotted values\n");
     fprintf (stderr,
       "    -peername string        name of a host for SNMP querying\n");
     fprintf (stderr,
@@ -294,11 +302,18 @@ void main(argc, argv)
 			"help\n");
 		exit(1);
 	    }
+	    /* A factor of 0.0 will create divide by zero problem. */
+	    if (resources.factor == 0) {
+		fprintf(stderr, "-factor of 0.0 is not allowed, nothing "
+			"will plot!\n");
+		exit(1);
+	    }
 	}
 	if (want_snmp) {
 	    my_snmp.peername = (char*)resources.peername;
 	    my_snmp.community = (char*)resources.community;
 	    my_snmp.oid = (char*)resources.oid;
+	    my_snmp.factor = resources.factor;
 
 	    XtAddCallback(load, XtNgetValue, GetLoadPoint_SNMP, 
 			  (XtPointer)&my_snmp);
