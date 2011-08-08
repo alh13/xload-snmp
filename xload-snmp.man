@@ -101,7 +101,7 @@ is given first, followed by the widget instance name.
 .sp
 .nf
 .ta .5i 1.0i 1.5i 2.0i
-XLoad  xload
+XLoadSNMP  xload-snmp
 	Paned  paned
 		Label  label
 		StripChart  load
@@ -117,7 +117,7 @@ to get the default host and display number.
 to get the name of a resource file that overrides the global resources
 stored in the RESOURCE_MANAGER property.
 .SH FILES
-<XRoot>/lib/X11/app-defaults/XLoad - specifies required resources
+<XRoot>/lib/X11/app-defaults/XLoadSNMP - specifies required resources
 .SH SEE ALSO
 X(1), xrdb(1), mem(4), Athena StripChart Widget.
 .SH BUGS

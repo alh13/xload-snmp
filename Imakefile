@@ -35,17 +35,17 @@ LOCAL_LIBRARIES = XawClientLibs $(SNMPLIBS)
  OSMINORVERSION = OSMinorVersion
       DEFINES = -DOSMAJORVERSION=$(OSMAJORVERSION) -DOSMINORVERSION=$(OSMINORVERSION)
 
-AllTarget(xload)
-NormalProgramTarget(xload,$(OBJS),$(DEPLIBS),$(LOCAL_LIBRARIES),NullParameter)
+AllTarget(xload-snmp)
+NormalProgramTarget(xload-snmp,$(OBJS),$(DEPLIBS),$(LOCAL_LIBRARIES),NullParameter)
 
 #if defined(OSF1Architecture) || defined(NetBSDArchitecture) || (defined(FreeBSDArchitecture) && OSMajorVersion > 1) || defined(OpenBSDArchitecture)
-InstallProgram(xload,$(BINDIR))
+InstallProgram(xload-snmp,$(BINDIR))
 #else
-InstallProgramWithFlags(xload,$(BINDIR),$(INSTKMEMFLAGS))
+InstallProgramWithFlags(xload-snmp,$(BINDIR),$(INSTKMEMFLAGS))
 #endif
 
-InstallAppDefaults(XLoad)
+InstallAppDefaults(XLoadSNMP)
 
-InstallManPage(xload,$(MANDIR))
+InstallManPage(xload-snmp,$(MANDIR))
 
 DependTarget()

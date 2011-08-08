@@ -1,9 +1,9 @@
 
 Requirements:
 
-To build xload-snmp you need to have the headers and libs for UCD SNMP
-as well as the regular X11 stuff. UCD SNMP is available at
-http://ucd-snmp.ucdavis.edu
+To build xload-snmp you need to have the headers and libs for Net (UCD) SNMP
+as well as the regular X11 stuff. Net SNMP is available at
+http://net-snmp.sourceforge.net
 
 Installation:
 
@@ -41,9 +41,6 @@ number we should gracefully... exit? not plot?
 64 bit integer return values are also not tested. The value into which we
 are storing the returned SNMP data is a double, I'm just not sure how it
 will react to a 64 bit return value.
-
-Folding back in with the main xload source base would be nice. Does anyone
-maintain that?
 
 Binary packages.
 

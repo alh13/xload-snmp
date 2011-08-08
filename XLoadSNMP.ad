@@ -1,4 +1,4 @@
-XLoad.input:			false
+XLoadSNMP.input:		false
 *Label*Justify:			left
 *JumpScroll:			1
 *internalBorderWidth:		0

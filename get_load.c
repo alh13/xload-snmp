@@ -1,5 +1,5 @@
 /**
- ** xload-snmp <ahosey@systhug.com>
+ ** xload-snmp <alh@warhound.org>
  ** Changes to this software differing from the X Consortium release
  ** versions below are Copyright (c) 2000 Adrian Hosey. Changes are
  ** licensed under the X Consortium license as described below.

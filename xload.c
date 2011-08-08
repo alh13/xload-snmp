@@ -1,5 +1,5 @@
 /** 
- ** xload-snmp <ahosey@systhug.com>
+ ** xload-snmp <alh@warhound.org>
  ** Changes to this software differing from the X Consortium release
  ** versions below are Copyright (c) 2000 Adrian Hosey. Changes are
  ** licensed under the X Consortium license as described below.
@@ -38,7 +38,7 @@ from the X Consortium.
 */
 
 /*
- * xload - display system load average in a window
+ * xload-snmp - display system load average in a window with SNMP ability
  */
 
 #include <stdio.h> 
@@ -67,7 +67,7 @@ static void SetLights();
  * Definition of the Application resources structure.
  */
 
-typedef struct _XLoadResources {
+typedef struct _XLoadSNMPResources {
   Boolean show_label;
   Boolean use_lights;
   String peername;
@@ -75,7 +75,7 @@ typedef struct _XLoadResources {
   String oid;
   float factor;
   Boolean delta;
-} XLoadResources;
+} XLoadSNMPResources;
 
 /*
  * Command line options table.  Only resources are entered here...there is a
@@ -100,10 +100,10 @@ static XrmOptionDescRec options[] = {
 
 /*
  * The structure containing the resource information for the
- * Xload application resources.
+ * XloadSNMP application resources.
  */
 
-#define Offset(field) (XtOffsetOf(XLoadResources, field))
+#define Offset(field) (XtOffsetOf(XLoadSNMPResources, field))
 
 /* I can't believe I have to do this. Xt is an atrocity. */
 static float factorDefault = 1.0;
@@ -126,9 +126,9 @@ static XtResource my_resources[] = {
 
 #undef Offset
 
-static XLoadResources resources;
+static XLoadSNMPResources resources;
 
-static XtActionsRec xload_actions[] = {
+static XtActionsRec xloadsnmp_actions[] = {
     { "quit",	quit },
 };
 static Atom wm_delete_window;
@@ -198,7 +198,8 @@ void main(argc, argv)
     setgid(getgid());		/* reset gid first while still (maybe) root */
     setuid(getuid());
 
-    toplevel = XtAppInitialize(&app_con, "XLoad", options, XtNumber(options),
+    toplevel = XtAppInitialize(&app_con, "XLoadSNMP", options, 
+			       XtNumber(options),
 			       &argc, argv, NULL, NULL, (Cardinal) 0);
     if (argc != 1) usage();
 
@@ -216,7 +217,7 @@ void main(argc, argv)
 
 	(void) sprintf (name, "%s.paned.load.update", XtName(toplevel));
 	found = XrmGetResource (XtScreenDatabase(XtScreen(toplevel)),
-				name, "XLoad.Paned.StripChart.Interval",
+				name, "XLoadSNMP.Paned.StripChart.Interval",
 				&type, &db_value);
 	if (found) {
 	    int_value.size = sizeof(int);
@@ -234,7 +235,8 @@ void main(argc, argv)
      	 * This is a hack so that f.delete will do something useful in this
      	 * single-window application.
      	 */
-    	XtAppAddActions (app_con, xload_actions, XtNumber(xload_actions));
+    	XtAppAddActions (app_con, xloadsnmp_actions, 
+			 XtNumber(xloadsnmp_actions));
     	XtOverrideTranslations(toplevel,
 		    	XtParseTranslationTable ("<Message>WM_PROTOCOLS: quit()"));
     
