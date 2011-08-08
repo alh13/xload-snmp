@@ -1,7 +1,7 @@
 XCOMM $XConsortium: Imakefile /main/30 1996/03/09 09:37:57 kaleb $
 XCOMM $XFree86: contrib/programs/xload/Imakefile,v 3.4.2.3 1998/02/20 15:14:00 robin Exp $
         DEPLIBS = XawClientDepLibs
-       SNMPLIBS = -lsnmp
+       SNMPLIBS = -lsnmp -lcrypto -lssl
 LOCAL_LIBRARIES = XawClientLibs $(SNMPLIBS)
 #ifdef i386MachArchitecture
   SYS_LIBRARIES = -lsys

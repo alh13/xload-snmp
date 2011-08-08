@@ -1,8 +1,8 @@
 
 /* Common needs for doing SNMP */
 
-#include <ucd-snmp/ucd-snmp-config.h>
-#include <ucd-snmp/ucd-snmp-includes.h>
+#include <net-snmp/net-snmp-config.h>
+#include <net-snmp/net-snmp-includes.h>
 
 typedef struct {
   char* peername;
