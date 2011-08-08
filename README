@@ -1,15 +1,9 @@
-<p>
 xload-snmp adds SNMP querying abilities to the venerable xload
 program. This makes it capable to use xload for graphing anything
 SNMPable. Disk usage, router traffic, anything with an OID.
-</p>
-<p>
+
 To build you will need the net-snmp libraries. Obtain with your distro's
-package manager or from <a href="http://net-snmp.sourceforge.net/">
-http://net-snmp.sourceforge.net/</a>.
-</p>
-<p>
-<strong><em>Update</em></strong> I haven't made any changes to this code
-for quite some time, but I tried compiling it and running it on CentOS 5
-and it still works!
-</p>
+package manager or from http://net-snmp.sourceforge.net.
+
+I haven't made any changes to this code for quite some time, but I tried
+compiling it and running it on CentOS 5 and it still works!
