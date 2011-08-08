@@ -60,6 +60,8 @@ static struct snmp_session *ss = NULL;
 static snmp_params *my_params;
 static oid anOID[MAX_OID_LEN];
 static size_t anOID_len = MAX_OID_LEN;
+/* Need this when using -delta flag */
+static double prev_real_value = 0.0;
 
 #define COMMUNITY_STR_LEN 256
 
@@ -1114,6 +1116,7 @@ void GetLoadPoint_SNMP( w, closure, call_data)
     struct variable_list *vars;
     int status;
     float scale_factor;
+    double prevprev_real_value;
 
     if (ss == NULL) initialize_xload_snmp((snmp_params*)closure);
     scale_factor = ((snmp_params*)closure)->factor;
@@ -1132,6 +1135,27 @@ void GetLoadPoint_SNMP( w, closure, call_data)
 	 * double so we have lots of storage. */
 	else
 	    *(double*)call_data = *(vars->val.integer) / scale_factor;
+
+	/* If we're doing -delta make that calculation now. */
+	if (((snmp_params*)closure)->delta) {
+	    if (prev_real_value == 0.0) {
+		/* But we need at least two values to take a delta. */
+		prev_real_value = *(double*)call_data;
+		*(double*)call_data = 0.0;
+	    }
+	    else {
+		prevprev_real_value = prev_real_value;
+		/* Save the results of this calculation for the next 
+		 * calculation */
+		prev_real_value = *(double*)call_data;
+		*(double*)call_data = prev_real_value - prevprev_real_value;
+		/* Negative number means the counter went down, perhaps
+		 * it was reset. So let's start over. */
+		if (*(double*)call_data < 0.0) {
+		    *(double*)call_data = prev_real_value = 0.0;
+		}
+	    }
+	}
     }
     else {
 	if (status == STAT_SUCCESS)
@@ -1148,5 +1172,3 @@ void GetLoadPoint_SNMP( w, closure, call_data)
      * we want it? Back in main()? Pudoo. */
     return;
 }
-
-

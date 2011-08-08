@@ -30,9 +30,9 @@ Read the manpage for more details.
 
 TODO:
 
-I'm not really familiar with SNMP, or Xt, so there should probably be lots
-of crossbar testing with various SNMP servers to make sure it works like
-it should.
+I'm not really experienced with SNMP, or Xt, so there should probably be
+lots of crossbar testing with various SNMP servers to make sure it works
+like it should.
 
 We don't yet deal with return values which might be strings. i.e. a string
 result of "1.000" should be acceptable. If we get a string that's not a
@@ -46,12 +46,6 @@ Folding back in with the main xload source base would be nice. Does anyone
 maintain that?
 
 Binary packages.
-
-A -delta flag which remembers the last response value and plots the
-_difference_ between that value and the current value. This would allow
-meaningful plots of values which only increase. For instance, plotting
-some kind of TotalPacketsOut counter with the -delta flag would
-essentially give packets out per second.
 
 I've found a GtkStripChart widget. If it's any good I might try switching
 to Gtk. Why? I think it would be neat if you could mouse over a point on

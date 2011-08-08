@@ -74,6 +74,7 @@ typedef struct _XLoadResources {
   String community;
   String oid;
   float factor;
+  Boolean delta;
 } XLoadResources;
 
 /*
@@ -94,6 +95,7 @@ static XrmOptionDescRec options[] = {
  {"-peername",          "*peername",            XrmoptionSepArg,        NULL},
  {"-community",         "*community",           XrmoptionSepArg,        NULL},
  {"-oid",               "*oid",                 XrmoptionSepArg,        NULL},
+ {"-delta",             "*delta",               XrmoptionNoArg,       "True"},
 };
 
 /*
@@ -118,6 +120,8 @@ static XtResource my_resources[] = {
    Offset(community), XtRString, (XtPointer)NULL },
   {"oid", XtCString, XtRString, sizeof(String),
    Offset(oid), XtRString, (XtPointer)NULL },
+  {"delta", XtCBoolean, XtRBoolean, sizeof(Boolean),
+   Offset(delta), XtRImmediate, (XtPointer) FALSE },
 };
 
 #undef Offset
@@ -168,6 +172,8 @@ void usage()
       "    -community string       name of file containing the community string\n");
     fprintf (stderr,
       "    -oid string             an oid for doing SNMP querying\n");
+    fprintf (stderr,
+      "    -delta                  plot the difference between values (snmp only)\n");
     fprintf (stderr, "\n");
     exit(1);
 }
@@ -314,6 +320,7 @@ void main(argc, argv)
 	    my_snmp.community = (char*)resources.community;
 	    my_snmp.oid = (char*)resources.oid;
 	    my_snmp.factor = resources.factor;
+	    my_snmp.delta = resources.delta;
 
 	    XtAddCallback(load, XtNgetValue, GetLoadPoint_SNMP, 
 			  (XtPointer)&my_snmp);

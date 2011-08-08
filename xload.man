@@ -80,6 +80,13 @@ factor before being plotted on the histogram. Use -factor to scale down
 very large values and keep the histogram legible. You can also scale
 \fIup\fP by specifying a factor of less than 1. A factor of zero is not
 allowed.
+.PP
+.TP 8
+.B \-delta
+Instead of plotting the actual values plot the difference between the
+current value and the previous value. This is useful for plotting rates of
+change using a counter which normally only increases. Currently this
+option only works when using SNMP.
 .SH RESOURCES
 In addition to the resources available to each of the widgets used by 
 \fIxload\fP there are resources defined by the application itself.

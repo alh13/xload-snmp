@@ -9,5 +9,6 @@ typedef struct {
   char* community;
   char* oid;
   float factor;
+  Boolean delta;
 } snmp_params;
 
